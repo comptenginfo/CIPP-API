@@ -14,25 +14,25 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PAT_TOKEN }}
           
       - name: Sync fork with upstream
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           
-          # Ajouter le repo upstream (FRONTEND)
-          git remote add upstream https://github.com/KelvinTegelaar/CIPP.git
+          # Ajouter le repo upstream (API/BACKEND)
+          git remote add upstream https://github.com/KelvinTegelaar/CIPP-API.git
           
           # Fetch upstream
           git fetch upstream
           
-          # Merge upstream/main dans main
-          git checkout main
-          git merge upstream/main --no-edit --allow-unrelated-histories
+          # Merge upstream/master dans master
+          git checkout master
+          git merge upstream/master --no-edit --allow-unrelated-histories
           
           # Push les changements
-          git push origin main
+          git push origin master
           
       - name: Trigger deployment
         run: |
