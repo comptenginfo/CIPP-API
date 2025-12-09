@@ -1,0 +1,39 @@
+name: Sync Fork with Upstream
+
+on:
+  schedule:
+    # Lance tous les lundis à 6h00 UTC (2h00 EST)
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+    # Permet de lancer manuellement depuis l'interface GitHub
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Sync fork with upstream
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Ajouter le repo upstream
+          git remote add upstream https://github.com/KelvinTegelaar/CIPP-API.git
+          
+          # Fetch upstream
+          git fetch upstream
+          
+          # Merge upstream/master dans master
+          git checkout master
+          git merge upstream/master --no-edit
+          
+          # Push les changements
+          git push origin master
+          
+      - name: Trigger deployment
+        run: |
+          echo "Fork synchronized with upstream. Deployment workflow will trigger automatically."
