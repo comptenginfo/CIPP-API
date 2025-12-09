@@ -21,18 +21,18 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           
-          # Ajouter le repo upstream
-          git remote add upstream https://github.com/KelvinTegelaar/CIPP-API.git
+          # Ajouter le repo upstream (FRONTEND)
+          git remote add upstream https://github.com/KelvinTegelaar/CIPP.git
           
           # Fetch upstream
           git fetch upstream
           
-          # Merge upstream/master dans master
-          git checkout master
-          git merge upstream/master --no-edit
+          # Merge upstream/main dans main
+          git checkout main
+          git merge upstream/main --no-edit --allow-unrelated-histories
           
           # Push les changements
-          git push origin master
+          git push origin main
           
       - name: Trigger deployment
         run: |
